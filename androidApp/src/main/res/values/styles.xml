@@ -1,3 +1,10 @@
 <resources>
-    <style name="AppTheme" parent="android:Theme.Material.NoActionBar"/>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Personaliza los colores y atributos aquí -->
+        <item name="colorPrimary">@color/your_primary_color</item>
+        <item name="colorPrimaryVariant">@color/your_primary_variant</item>
+        <item name="colorOnPrimary">@color/your_on_primary</item>
+        <!-- Otros atributos que necesites -->
+    </style>
 </resources>

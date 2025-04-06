@@ -11,18 +11,17 @@
 
         <activity
             android:name=".ui.login.RegistrarVoluntarios"
-            android:exported="false"
-            android:label="activity_registrar_voluntarios" />
-
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:label="activity_registrar_voluntarios" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

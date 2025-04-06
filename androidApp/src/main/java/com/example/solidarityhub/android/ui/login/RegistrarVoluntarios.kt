@@ -10,6 +10,7 @@ import java.util.Locale
 import com.example.solidarityhub.android.R
 import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.MaterialDatePicker
+import androidx.lifecycle.ViewModelProvider
 
 
 class RegistrarVoluntarios : AppCompatActivity() {
@@ -24,20 +25,13 @@ class RegistrarVoluntarios : AppCompatActivity() {
     private var fechaFin: Calendar? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityRegistrarVoluntariosBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Inicializa el viewModel
+        viewModel = ViewModelProvider(this, LoginViewModelFactory()).get(LoginViewModel::class.java)
 
-        // Configurar los chips
-        val chipIds = listOf(
-            R.id.Limpieza,
-            R.id.Transporte,
-            R.id.Reparaciones,
-            R.id.Busqueda,
-            R.id.Alojamiento
-        )
-
+        // Ahora ya puedes usar viewModel sin que lance la excepción
         val capacidadesStrings = viewModel.getCapacidadesIds().map { id ->
             when (id) {
                 R.id.Limpieza -> getString(R.string.Limpieza)
@@ -49,11 +43,19 @@ class RegistrarVoluntarios : AppCompatActivity() {
             }.takeIf { it.isNotBlank() }
         }.filterNotNull()
 
-        configurarChips(chipIds, capacidadesStrings)
+        configurarChips(listOf(
+            R.id.Limpieza,
+            R.id.Transporte,
+            R.id.Reparaciones,
+            R.id.Busqueda,
+            R.id.Alojamiento
+        ), capacidadesStrings)
+
         configurarCalendario()
         configurarBtonSeleccionRango()
         configurarResetButton()
     }
+
 
 
 
