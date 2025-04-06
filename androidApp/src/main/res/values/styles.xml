@@ -5,6 +5,24 @@
         <item name="colorPrimary">@color/your_primary_color</item>
         <item name="colorPrimaryVariant">@color/your_primary_variant</item>
         <item name="colorOnPrimary">@color/your_on_primary</item>
-        <!-- Otros atributos que necesites -->
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="android:colorBackground">@color/white</item>
+    </style>
+    <style name="BlueChipStyle" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="chipCornerRadius">8dp</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipStrokeColor">@color/blue_electric</item>
+        <item name="chipBackgroundColor">@animator/chip_selector</item>
+        <item name="android:textColor">@color/blue_text_primary</item>
+    </style>
+    <style name="BlueTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/blue_primary</item>
+        <item name="boxBackgroundColor">@color/white</item>
+    </style>
+    <style name="BlueOutlinedButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@color/blue_primary_dark</item>
+        <item name="strokeColor">@color/blue_primary_dark</item>
+        <item name="strokeWidth">1dp</item>
     </style>
 </resources>

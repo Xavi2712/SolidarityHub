@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -32,9 +31,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+}
+
+// Configuramos las opciones de Kotlin en la tarea de compilación
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 dependencies {
@@ -51,5 +52,9 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.play.services.maps)
     implementation(libs.androidx.annotation)
+    implementation(libs.androidx.activity)
     debugImplementation(libs.compose.ui.tooling)
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 }

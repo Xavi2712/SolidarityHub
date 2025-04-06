@@ -1,24 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="false"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD5aaBvxYkF_-T0SdvJCK3FDwuzvIeBVC0"/>
-
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.login.RegistrarVoluntarios"
+            android:name=".ui.voluntarios.RegistrarVoluntariosActivity"
+            android:exported="false" />
+        <!-- Actividad de Registro Afectados, ahora es la principal -->
+        <activity
+            android:name=".ui.afectados.RegistrarAfectadosActivity"
             android:exported="true"
-            android:label="activity_registrar_voluntarios" >
+            android:label="@string/registro_afectados">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyD5aaBvxYkF_-T0SdvJCK3FDwuzvIeBVC0" /> <!-- Actividad de Registrar Voluntarios -->
+        <activity
+            android:name=".ui.login.RegistrarVoluntarios"
+            android:exported="true"
+            android:label="activity_registrar_voluntarios" />
         <activity
             android:name=".MainActivity"
             android:exported="true" />

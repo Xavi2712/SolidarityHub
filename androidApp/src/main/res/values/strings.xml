@@ -12,12 +12,22 @@
     <string name="map">Mapa Interactivo</string>
     <string name="rango">Rango de fechas</string>
     <string name="reinicio">Reiniciar fechas</string>
-
-
-     <string name="white">#FFFFFF</string>
-
-
-
+    <string name="app_name">SolidarityHub</string>
+    <string name="registro_afectados">Registro Afectado:</string>
+    <string name="checkbox_label">Checkbox</string>
+    <string name="necesidades_label">Necesidades:</string>
+    <string name="breve_descripcion">Breve descripción</string>
+    <string name="nombre">Nombre</string>
+    <string name="documento">Dni/Nie/Pasaporte</string>
+    <string name="direccion">Dirección</string>
+    <string name="procesando">Procesando...</string>
+    <string name="telefono">Teléfono (Opcional)</string>
+    <string name="registrar">Registrar</string>
+    <string name="white">#FFFFFF</string>
+    <string-array name="afectado_options">
+        <item>Yo mismo</item>
+        <item>Otra persona</item>
+    </string-array>
 
 
 </resources>

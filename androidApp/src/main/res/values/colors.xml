@@ -5,4 +5,13 @@
     <color name="your_primary_variant">#3700B3</color>
     <color name="your_on_primary">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
+    <color name="colorSecondary">#03DAC6</color>
+    <color name="colorOnSecondary">#000000</color>
+    <color name="colorBotonDestacado">#4CAF50</color>
+    <color name="blue_primary_light">#E3F2FD</color>
+    <color name="blue_primary_dark">#1565C0</color>
+    <color name="blue_electric">#00B0FF</color>
+    <color name="blue_primary">#2196F3</color>
+    <color name="blue_text_primary">#0D47A1</color>
+    <color name="blue_text_secondary">#1976D2</color>
 </resources>
