@@ -1,0 +1,13 @@
+<resources>
+    <string name="Capacidades">Capacidades</string>
+    <string name="Registrar">Registrar Voluntario</string>
+    <string name="Limpieza">Limpieza</string>
+    <string name="Transporte">Transporte</string>
+    <string name="Reparaciones">Reparaciones</string>
+    <string name="Búsqueda">Búsqueda</string>
+    <string name="Alojamiento">Alojamiento</string>
+    <string name="Disponibilidad">Disponibilidad</string>
+    <string name="Alcance">Alcance</string>
+    <string name="Registro">Registrar Voluntario</string>
+    <string name="map">Mapa Interactivo</string>
+</resources>
