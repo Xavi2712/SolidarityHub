@@ -37,6 +37,8 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     fun getCapacidadesIds(): List<Int> {
         return _capacidadesSeleccionadas.value?.filter { it.value }?.keys?.toList() ?: emptyList()
     }
+
+
     }
 
 

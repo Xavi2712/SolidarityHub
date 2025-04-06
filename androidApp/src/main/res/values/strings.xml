@@ -10,4 +10,14 @@
     <string name="Alcance">Alcance</string>
     <string name="Registro">Registrar Voluntario</string>
     <string name="map">Mapa Interactivo</string>
+    <string name="rango">Rango de fechas</string>
+    <string name="reinicio">Reiniciar fechas</string>
+
+
+     <string name="white">#FFFFFF</string>
+
+
+
+
+
 </resources>
