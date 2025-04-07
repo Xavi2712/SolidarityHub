@@ -133,7 +133,7 @@
         app:layout_constraintHorizontal_bias="0.06"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-       />
+        app:selectionType="range"/>
 
     <TextView
         android:id="@+id/textView4"
@@ -172,21 +172,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="608dp"
+        android:layout_marginTop="648dp"
         android:text="@string/Registro"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.778"
+        app:layout_constraintHorizontal_bias="0.631"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnReset"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="56dp"
         android:layout_marginTop="316dp"
-
+        android:layout_marginStart="28dp"
         android:text="@string/reinicio"
-        android:textColor="@color/white"
+        android:textColor="@string/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.944"
         app:layout_constraintStart_toStartOf="parent"
@@ -195,11 +195,11 @@
 
     <Button
         android:id="@+id/seleccionRango"
-        android:layout_width="244dp"
-        android:layout_height="33dp"
+        android:layout_width="108dp"
+        android:layout_height="60dp"
         android:layout_marginTop="252dp"
         android:text="@string/rango"
-        android:textColor="@color/white"
+        android:textColor="@string/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -215,12 +215,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <SearchView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="268dp"
-        android:layout_marginTop="380dp"
+    <com.google.android.material.search.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="186dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="172dp"
+        android:layout_marginTop="504dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.search.SearchBar
+            android:id="@+id/searchBar"
+            android:layout_width="56dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="284dp"
+            android:layout_marginTop="552dp"
+            android:text=""
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </com.google.android.material.search.SearchView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSuggestions"
+        android:contentDescription="@string/ubicacion"
+        android:layout_width="187dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="176dp"
+        android:layout_marginTop="556dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

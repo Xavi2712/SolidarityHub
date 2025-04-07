@@ -51,5 +51,10 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.play.services.maps)
     implementation(libs.androidx.annotation)
+    implementation(libs.places)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.google.material)
     debugImplementation(libs.compose.ui.tooling)
+
+
 }
