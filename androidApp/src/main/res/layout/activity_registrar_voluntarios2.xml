@@ -1,0 +1,241 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ui.voluntarios.RegistrarVoluntariosActivity">
+
+
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/Registrar"
+        android:textColor="@color/blue_primary_dark"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Sección Capacidades -->
+    <TextView
+        android:id="@+id/tvCapacidades"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/Capacidades"
+        android:textColor="@color/blue_primary_dark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
+
+    <!-- Grupo de chips - Estilo personalizado -->
+    <LinearLayout
+        android:id="@+id/llChipsRow1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCapacidades">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipLimpieza"
+            style="@style/BlueChipStyle"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/Limpieza"
+            app:chipBackgroundColor="@animator/chip_selector"
+            app:chipStrokeColor="@color/blue_electric"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipTransporte"
+            style="@style/BlueChipStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/Transporte"
+            app:chipBackgroundColor="@animator/chip_selector"
+            app:chipStrokeColor="@color/blue_electric"/>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipOtro"
+            style="@style/BlueChipStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:chipBackgroundColor="@animator/chip_selector"
+            app:chipStrokeColor="@color/blue_electric"
+            android:text="Otro" />
+    </LinearLayout>
+
+    <!-- Segunda fila de chips -->
+    <LinearLayout
+        android:id="@+id/llChipsRow2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llChipsRow1">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipReparaciones"
+            style="@style/BlueChipStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:chipBackgroundColor="@animator/chip_selector"
+            app:chipStrokeColor="@color/blue_electric"
+            android:text="@string/Reparaciones" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipBusqueda"
+            style="@style/BlueChipStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:chipBackgroundColor="@animator/chip_selector"
+            app:chipStrokeColor="@color/blue_electric"
+            android:text="@string/Búsqueda" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipAlojamiento"
+            style="@style/BlueChipStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:chipBackgroundColor="@animator/chip_selector"
+            app:chipStrokeColor="@color/blue_electric"
+
+            android:text="@string/Alojamiento" />
+    </LinearLayout>
+
+    <!-- Sección Disponibilidad -->
+
+    <!-- Calendario con estilo azul -->
+    <!-- Sección Alcance -->
+
+    <!-- Campo de dirección -->
+
+    <TextView
+        android:id="@+id/tvDisponibilidad"
+        android:layout_width="139dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/Disponibilidad"
+        android:textColor="@color/blue_primary_dark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llChipsRow2" />
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="348dp"
+        android:layout_height="294dp"
+        android:layout_marginTop="0dp"
+        android:elevation="8dp"
+        android:firstDayOfWeek="2"
+        android:maxDate="31/12/2030"
+        android:minDate="01/01/2025"
+        android:outlineAmbientShadowColor="@color/blue_primary_dark"
+        android:outlineSpotShadowColor="@color/blue_primary_dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.29"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDisponibilidad" />
+
+    <TextView
+        android:id="@+id/tvAlcance"
+        android:layout_width="74dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="48dp"
+        android:text="@string/Alcance"
+        android:textColor="@color/blue_primary_dark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calendarView" />
+
+    <!-- Botón principal -->
+
+    <!-- Botones secundarios -->
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        style="@style/BlueTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:boxStrokeColor="@color/blue_primary"
+        app:layout_constraintTop_toBottomOf="@id/tvAlcance"
+        tools:layout_editor_absoluteX="-74dp">
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRegistrar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:stateListAnimator="@animator/electric_press"
+        android:text="@string/Registro"
+        android:textColor="@android:color/white"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDireccion" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnReset"
+        style="@style/BlueOutlinedButtonStyle"
+        android:layout_width="150dp"
+        android:layout_height="65dp"
+        android:layout_marginEnd="112dp"
+        android:stateListAnimator="@animator/electric_press"
+        android:text="@string/reinicio"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendarView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvrango"
+        android:layout_width="239dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="56dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/tvDisponibilidad"
+        app:layout_constraintTop_toBottomOf="@+id/llChipsRow2" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etDireccion"
+        android:layout_width="match_parent"
+        android:layout_height="92dp"
+        android:hint="@string/direccion"
+        android:textColor="@color/blue_text_primary"
+        android:textColorHint="@color/blue_text_secondary"
+        app:layout_constraintTop_toBottomOf="@+id/btnReset"
+        tools:layout_editor_absoluteX="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
