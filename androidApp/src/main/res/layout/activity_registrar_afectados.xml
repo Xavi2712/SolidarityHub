@@ -7,9 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".ui.afectados.RegistrarAfectadosActivity">
+    tools:context=".afectados.RegistrarAfectadosActivity">
 
-    <!-- Título -->
+    <!-- Título -->
     <TextView
         android:id="@+id/tvTitulo"
         android:layout_width="0dp"
@@ -19,91 +19,86 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-
-    <!-- Campo para Nombre, alineado a la izquierda -->
+    <!-- Nombre -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilNombre"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/nombre"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/tvTitulo"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Campo para Documento, alineado a la izquierda -->
+    <!-- Documento -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilDocumento"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/documento"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/tilNombre"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etDocumento"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Campo para Dirección, alineado a la izquierda -->
+    <!-- Dirección -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilDireccion"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/direccion"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/tilDocumento"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etDireccion"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Campo para Teléfono (Opcional), alineado a la izquierda -->
+    <!-- Teléfono -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilTelefono"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/telefono"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/tilDireccion"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etTelefono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone" />
+            android:inputType="phone"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Botón Registrar, centrado horizontalmente -->
+    <!-- Botón Registrar -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRegistrar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/registrar"
-        android:backgroundTint="@color/your_primary_variant"
-        android:textColor="@color/white"
+        android:layout_marginTop="32dp"
         app:cornerRadius="16dp"
         app:layout_constraintTop_toBottomOf="@id/tilTelefono"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlinAndroid)
 }
 
 android {
@@ -33,7 +34,6 @@ android {
     }
 }
 
-// Configuramos las opciones de Kotlin en la tarea de compilación
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
     kotlinOptions.jvmTarget = "1.8"
 }
