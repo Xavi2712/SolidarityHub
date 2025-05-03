@@ -1,104 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:padding="16dp"
     tools:context=".afectados.RegistrarAfectadosActivity">
 
-    <!-- Título -->
     <TextView
         android:id="@+id/tvTitulo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/registro_afectados"
-        android:textSize="32sp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        app:layout_constraintTop_toTopOf="parent"
+        android:text="Registrar ubicación"
+        android:textAlignment="center"
+        android:textColor="#E91E63"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Nombre -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilNombre"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvSubtitulo"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/nombre"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tvTitulo"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_marginTop="8dp"
+        android:text="Ingrese su ubicación para recibir ayuda"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etNombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Documento -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilDocumento"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/documento"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tilNombre"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etDocumento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Dirección -->
+    <!-- Buscador de direcciones con autocompletado -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilDireccion"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/direccion"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tilDocumento"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etDireccion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Teléfono -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilTelefono"
+        app:boxStrokeColor="#E91E63"
+        app:endIconMode="clear_text"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/telefono"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tilDireccion"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitulo">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etTelefono"
+        <AutoCompleteTextView
+            android:id="@+id/etBuscarDireccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone"/>
+            android:hint="Buscar dirección"
+            android:inputType="text"
+            android:imeOptions="actionSearch"
+            android:dropDownAnchor="@id/tilDireccion"
+            android:popupBackground="#FFFFFF"
+            android:completionThreshold="3" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Botón Registrar -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnRegistrar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/registrar"
-        android:layout_marginTop="32dp"
-        app:cornerRadius="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tilTelefono"
+    <!-- Mapa -->
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/tvDireccionSeleccionada"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/tilDireccion" />
+
+    <!-- Mostrar dirección seleccionada -->
+    <TextView
+        android:id="@+id/tvDireccionSeleccionada"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Dirección seleccionada: "
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/tvCoordenadas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Mostrar coordenadas (opcional, puede ser invisible) -->
+    <TextView
+        android:id="@+id/tvCoordenadas"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Coordenadas: "
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/btnRegistrarUbicacion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Botón para registrar -->
+    <Button
+        android:id="@+id/btnRegistrarUbicacion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Registrar mi ubicación"
+        android:backgroundTint="#E91E63"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,21 @@
 package com.example.solidarityhub.android.data.remote
 
-import com.example.solidarityhub.android.data.dto.AfectadoADTO
-import com.example.solidarityhub.android.data.dto.AfectadoBDTO
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.Path
+
+data class UbicacionRequest(
+    val latitud: Double,
+    val longitud: Double,
+    val direccion: String
+    // Agrega otros campos que estés enviando
+)
 
 interface AfectadoApiService {
-    @POST("api/AfectadoA/agregar-afectadoA")
-    suspend fun addAfectadoA(@Body afectadoADto: AfectadoADTO): Response<ApiResponse>
+    @POST("api/AfectadoA/convertir-usuario/{dni}")
+    suspend fun convertirUsuarioAfectado(
+        @Path("dni") dni: String,
+        @Body ubicacionData: UbicacionRequest
+    ): Response<ApiResponse>
 }
