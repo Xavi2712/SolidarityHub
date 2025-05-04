@@ -9,28 +9,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".NecesidadActivity"
+            android:exported="false" />
         <!-- Actividad de Login como principal -->
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Actividad de Registro Usuario -->
+        </activity> <!-- Actividad de Registro Usuario -->
         <activity
             android:name=".ui.login.RegistroUsuarioActivity"
-            android:exported="false" />
-
-        <!-- Actividad de Selección de Rol -->
+            android:exported="false" /> <!-- Actividad de Selección de Rol -->
         <activity
             android:name=".ui.login.SeleccionRolActivity"
-            android:exported="false" />
-
-        <!-- Otras actividades existentes -->
+            android:exported="false" /> <!-- Otras actividades existentes -->
         <activity
             android:name=".voluntarios.RegistrarVoluntariosActivity"
             android:exported="true"
@@ -40,18 +37,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.login.SeleccionRolActivity" />
         </activity>
-
         <activity
             android:name=".afectados.RegistrarAfectadosActivity"
             android:exported="true"
-            android:label="@string/registro_afectados" />
-
-
-        <!-- Mantén cualquier otra actividad o metadatos que ya existan -->
+            android:label="@string/registro_afectados" /> <!-- Mantén cualquier otra actividad o metadatos que ya existan -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD5aaBvxYkF_-T0SdvJCK3FDwuzvIeBVC0" />
-
     </application>
 
 </manifest>
