@@ -15,12 +15,12 @@ import kotlinx.coroutines.launch
 data class NecesidadRequest(
     val tipo: String,
     val descripcion: String,
-    val afectadoId: Int  // si lo necesitas
+    val dni:String
 )
 
 // 2️⃣ Define la interfaz Retrofit
 interface AfectadoApi {
-    @POST("api/necesidades")
+    @POST("api/Necesidad")
     suspend fun crearNecesidad(@Body req: NecesidadRequest)
 }
 
@@ -44,7 +44,7 @@ class AñadirNecesidadActivity : AppCompatActivity() {
         val botonGuardar: Button = findViewById(R.id.btnGuardarNecesidad)
 
         // Spinner con opciones fijas
-        val opciones = listOf("Comida", "Agua", "Ropa", "Medicamentos", "Alojamiento")
+        val opciones = listOf("Alimentos","Ropa","Medicinas","Vivienda","Transporte","Asistencia Médica", "Otro")
         ArrayAdapter(this, android.R.layout.simple_spinner_item, opciones).also {
             it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = it
@@ -62,8 +62,19 @@ class AñadirNecesidadActivity : AppCompatActivity() {
             // Envía la petición al backend
             lifecycleScope.launch {
                 try {
-                    val afectadoId = intent.getIntExtra("AFECTADO_ID", 0)
-                    val req = NecesidadRequest(tipo, descripcion, afectadoId)
+                    // Obtener el DNI desde SharedPreferences
+                    val prefs = getSharedPreferences("SolidarityHubPrefs", MODE_PRIVATE)
+                    val dni = prefs.getString("dni", null)
+
+                    if (dni == null) {
+                        Toast.makeText(this@AñadirNecesidadActivity, "Error: no se encontró el DNI del usuario.", Toast.LENGTH_LONG).show()
+                        return@launch
+                    }
+
+                    // Ahora puedes usar el DNI directamente o buscar el ID del afectado con él
+                    val req = NecesidadRequest(tipo, descripcion, dni)
+
+                    // Enviar la necesidad
                     api.crearNecesidad(req)
                     Toast.makeText(this@AñadirNecesidadActivity, "Necesidad registrada", Toast.LENGTH_LONG).show()
                     finish()
