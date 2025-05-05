@@ -1,7 +1,10 @@
 package com.example.solidarityhub.android.data.dto
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class AfectadoADTO(
     val dni: String,
     val nombre: String,
@@ -13,5 +16,8 @@ data class AfectadoADTO(
 
     val correo: String,
     val rol: String,
-    val direccion: String
-)
+    val direccion: String,
+    val longitud : Double,
+    val latitud : Double,
+    val necesidades : List<String>
+) : Parcelable

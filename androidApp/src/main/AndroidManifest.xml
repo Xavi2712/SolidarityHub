@@ -10,8 +10,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".NecesidadActivity"
-            android:exported="false" />
+            android:name=".inicio.Menu_activity"
+            android:exported="true" />
         <!-- Actividad de Login como principal -->
         <activity
             android:name=".ui.login.LoginActivity"

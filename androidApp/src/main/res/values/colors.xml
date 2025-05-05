@@ -14,4 +14,7 @@
     <color name="blue_primary">#2196F3</color>
     <color name="blue_text_primary">#0D47A1</color>
     <color name="blue_text_secondary">#1976D2</color>
+    <color name="transparent">#000000</color>
+    <color name="nav_background">#E1F5FE</color>
+    <color name="ripple_light_gray">#20000000</color>
 </resources>
