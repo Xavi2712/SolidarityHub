@@ -1,31 +1,23 @@
-package com.example.solidarityhub.android
+package com.example.solidarityhub.android.Necesidad
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.solidarityhub.android.R
+import com.example.solidarityhub.android.data.model.NecesidadRequest
+import com.example.solidarityhub.android.data.remote.AfectadoApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.POST
 import kotlinx.coroutines.launch
 
 // 1️⃣ Define la data class que enviarás al servidor
-data class NecesidadRequest(
-    val tipo: String,
-    val descripcion: String,
-    val dni:String
-)
+
 
 // 2️⃣ Define la interfaz Retrofit
-interface AfectadoApi {
-    @POST("api/Necesidad")
-    suspend fun crearNecesidad(@Body req: NecesidadRequest)
-}
 
 class AñadirNecesidadActivity : AppCompatActivity() {
-    private lateinit var api: AfectadoApi
+    private lateinit var api: AfectadoApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +28,7 @@ class AñadirNecesidadActivity : AppCompatActivity() {
             .baseUrl("https://tu-backend.com/") // cambia por tu URL real
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        api = retrofit.create(AfectadoApi::class.java)
+        api = retrofit.create(AfectadoApiService::class.java)
 
         // Vistas
         val spinner: Spinner = findViewById(R.id.spinnerNecesidades)

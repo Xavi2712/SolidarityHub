@@ -42,7 +42,7 @@
 
     </FrameLayout>
 
-    <!-- MENÚ LATERAL (se desliza) -->
+    <!-- MENÚ LATERAL (ahora es hijo directo de DrawerLayout) -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="260dp"
         android:layout_height="match_parent"
@@ -124,12 +124,12 @@
             app:layout_constraintVertical_bias="0.451" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnRegistrarVoluntario"
+            android:id="@+id/btnRegistrarNecesidad"
             style="@style/botonMenu"
             android:layout_width="200dp"
             android:layout_height="70dp"
             android:layout_marginEnd="12dp"
-            android:text="Registrar Voluntario"
+            android:text="Registrar Necesidad"
             app:backgroundTint="@color/transparent"
             app:icon="@drawable/ic_profile"
             app:iconGravity="start"
@@ -139,23 +139,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.562" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnRegistrarAfectado"
-            style="@style/botonMenu"
-            android:layout_width="200dp"
-            android:layout_height="70dp"
-            android:layout_marginEnd="16dp"
-            android:text="Registrar Afectado"
-            app:backgroundTint="@color/transparent"
-            app:icon="@drawable/ic_profile"
-            app:iconGravity="start"
-            app:iconPadding="8dp"
-            app:iconTint="@color/quantum_black_100"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.674" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAjustes"
@@ -170,18 +153,18 @@
             app:iconTint="@color/quantum_black_100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.428"
+            app:layout_constraintHorizontal_bias="0.75"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.767" />
+            app:layout_constraintVertical_bias="0.688" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCerrarSesion"
             style="@style/botonMenu"
             android:layout_width="200dp"
             android:layout_height="70dp"
-            android:layout_marginTop="544dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="524dp"
+            android:layout_marginEnd="12dp"
             android:text="Cerrar sesión"
             app:backgroundTint="@color/transparent"
             app:icon="@drawable/ic_logout"

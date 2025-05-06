@@ -9,8 +9,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".inicio.Menu_activity"
+            android:exported="true" />
+        <activity
+            android:name=".Necesidad.AñadirNecesidadActivity"
             android:exported="true" />
         <!-- Actividad de Login como principal -->
         <activity

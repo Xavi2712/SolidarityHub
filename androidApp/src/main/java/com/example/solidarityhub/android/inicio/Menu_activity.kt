@@ -16,7 +16,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import android.content.Intent
+import com.example.solidarityhub.android.Necesidad.AñadirNecesidadActivity
 import com.example.solidarityhub.android.afectados.RegistrarAfectadosActivity
+import com.example.solidarityhub.android.data.dto.AfectadoADTO
+import com.example.solidarityhub.android.data.remote.AfectadoApiService
+import com.example.solidarityhub.android.data.remote.RetrofitClient
 import com.example.solidarityhub.android.ui.login.LoginActivity
 import com.example.solidarityhub.android.data.voluntarios.RegistrarVoluntariosActivity
 
@@ -25,6 +29,8 @@ class Menu_activity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityMenuBinding
     private lateinit var mMap: GoogleMap
     private lateinit var sessionManager: SessionManager
+    private lateinit var afectados : List<AfectadoADTO>
+    private lateinit var api: AfectadoApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,12 +52,18 @@ class Menu_activity : AppCompatActivity(), OnMapReadyCallback {
 
         // Configurar datos de usuario en el menú
         setupUserData()
+
+
     }
 
     private fun setupDrawerLayout() {
         // Configurar botón hamburguesa para abrir el menú
         binding.btnMenuHamburguesa.setOnClickListener {
-            binding.drawerLayout.openDrawer(GravityCompat.START)
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
+            } else {
+                binding.drawerLayout.openDrawer(GravityCompat.START)
+            }
         }
 
         // Configurar botón de centrar en ubicación
@@ -74,19 +86,15 @@ class Menu_activity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         // Configurar botón de registrar voluntario
-        binding.btnRegistrarVoluntario.setOnClickListener {
+        binding.btnRegistrarNecesidad.setOnClickListener {
             // Corregido: usar RegistrarVoluntariosActivity en lugar de RegistrarVoluntarioActivity
-            val intent = Intent(this, RegistrarVoluntariosActivity::class.java)
+            val intent = Intent(this, AñadirNecesidadActivity::class.java)
             startActivity(intent)
             binding.drawerLayout.closeDrawer(GravityCompat.START)
         }
 
         // Configurar botón de registrar afectado
-        binding.btnRegistrarAfectado.setOnClickListener {
-            val intent = Intent(this, RegistrarAfectadosActivity::class.java)
-            startActivity(intent)
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
-        }
+
 
         // Configurar botón de ajustes
         binding.btnAjustes.setOnClickListener {

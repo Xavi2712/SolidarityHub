@@ -1,6 +1,7 @@
 package com.example.solidarityhub.android.data.remote
 
 import com.example.solidarityhub.android.data.dto.AfectadoADTO
+import com.example.solidarityhub.android.data.model.NecesidadRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -24,4 +25,10 @@ interface AfectadoApiService {
 
         @GET("api/AfectadoA/obtener/todos") // Ajusta el endpoint según tu API
         suspend fun getAllAfectados(): List<AfectadoADTO>
+
+
+        @POST("api/Necesidad")
+        suspend fun crearNecesidad(@Body req: NecesidadRequest)
     }
+
+
