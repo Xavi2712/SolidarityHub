@@ -29,7 +29,10 @@
             android:name=".ui.login.SeleccionRolActivity"
             android:exported="false" /> <!-- Otras actividades existentes -->
         <activity
-            android:name=".voluntarios.RegistrarVoluntariosActivity"
+            android:name=".ui.voluntarios.RegistrarVoluntarioUbicacionActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".data.voluntarios.RegistrarVoluntariosActivity"
             android:exported="true"
             android:label="Registro de Voluntario"
             android:parentActivityName=".ui.login.SeleccionRolActivity">

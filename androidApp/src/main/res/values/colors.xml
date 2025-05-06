@@ -17,4 +17,5 @@
     <color name="transparent">#000000</color>
     <color name="nav_background">#E1F5FE</color>
     <color name="ripple_light_gray">#20000000</color>
+    <color name="blue_transparent">#334285F4</color>
 </resources>

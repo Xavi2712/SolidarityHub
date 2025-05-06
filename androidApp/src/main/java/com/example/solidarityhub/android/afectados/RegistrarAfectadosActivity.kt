@@ -31,6 +31,8 @@ import kotlinx.coroutines.withContext
 import android.location.Geocoder
 import java.io.IOException
 import java.util.Locale
+import android.content.Intent
+import com.example.solidarityhub.android.inicio.Menu_activity
 
 class RegistrarAfectadosActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -210,7 +212,17 @@ class RegistrarAfectadosActivity : AppCompatActivity(), OnMapReadyCallback {
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         Toast.makeText(this@RegistrarAfectadosActivity, "Registro exitoso como afectado", Toast.LENGTH_LONG).show()
-                        finish() // Cerrar actividad y volver a la principal
+
+                        // Guardar ubicación en SessionManager
+                        sessionManager.saveUserLocation(
+                            currentLatLng!!.latitude,
+                            currentLatLng!!.longitude,
+                            currentAddress
+                        )
+                        sessionManager.saveUserRole("afectado")
+                        val intent = Intent(this@RegistrarAfectadosActivity, Menu_activity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
                     } else {
                         val errorMsg = response.errorBody()?.string() ?: "Error desconocido"
                         Toast.makeText(this@RegistrarAfectadosActivity, "Error: $errorMsg", Toast.LENGTH_LONG).show()
@@ -272,6 +284,8 @@ class RegistrarAfectadosActivity : AppCompatActivity(), OnMapReadyCallback {
         val madrid = LatLng(40.4168, -3.7038)
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(madrid, 5f))
     }
+
+
 
     override fun onDestroy() {
         super.onDestroy()

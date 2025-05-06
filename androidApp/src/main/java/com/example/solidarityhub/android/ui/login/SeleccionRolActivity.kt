@@ -11,7 +11,7 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.solidarityhub.android.afectados.RegistrarAfectadosActivity
 import com.example.solidarityhub.android.databinding.ActivitySeleccionRolBinding
-import com.example.solidarityhub.android.voluntarios.RegistrarVoluntariosActivity
+import com.example.solidarityhub.android.data.voluntarios.RegistrarVoluntariosActivity
 import kotlin.math.hypot
 
 class SeleccionRolActivity : AppCompatActivity() {

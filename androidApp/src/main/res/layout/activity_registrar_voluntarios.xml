@@ -11,329 +11,461 @@
         android:layout_height="match_parent"
         android:padding="16dp">
 
-        <!-- Título de la sección de capacidades -->
+        <!-- Título para la sección de capacidades -->
         <TextView
             android:id="@+id/tvTituloCapacidades"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Selecciona tus capacidades:"
-            android:textColor="#1565C0"
-            android:textSize="18sp"
+            android:text="Indica tus capacidades"
+            android:textSize="16sp"
             android:textStyle="bold"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Primera fila de tarjetas - Más pequeñas -->
+        <!-- Primera fila de tarjetas (3 tarjetas) -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardLimpieza"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
             android:checkable="true"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
-            app:checkedIcon="@drawable/ic_check_circle"
-            app:checkedIconMargin="8dp"
-            app:checkedIconTint="#2196F3"
-            app:layout_constraintEnd_toStartOf="@+id/cardMaterialPesado"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="1dp"
+            app:cardBackgroundColor="@color/white"
+            app:strokeColor="@color/blue_primary"
+            app:cardElevation="2dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/cardMaterialPesado"
             app:layout_constraintTop_toBottomOf="@+id/tvTituloCapacidades"
-            app:strokeColor="#2196F3"
-            app:strokeWidth="1dp">
+            app:layout_constraintWidth_percent="0.30">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="4dp">
+                android:gravity="center">
 
                 <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:contentDescription="Limpieza"
-                    android:src="@android:drawable/ic_menu_manage" />
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_check_circle"
+                    app:tint="@color/white"
+                    android:background="@drawable/circular_bg"
+                    android:padding="6dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="4dp"
                     android:text="Limpieza"
-                    android:textSize="10sp" />
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardMaterialPesado"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
             android:checkable="true"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
-            app:checkedIcon="@drawable/ic_check_circle"
-            app:checkedIconMargin="8dp"
-            app:checkedIconTint="#2196F3"
-            app:layout_constraintEnd_toStartOf="@+id/cardSuministros"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="1dp"
+            app:cardBackgroundColor="@color/white"
+            app:strokeColor="@color/blue_primary"
+            app:cardElevation="2dp"
             app:layout_constraintStart_toEndOf="@+id/cardLimpieza"
-            app:layout_constraintTop_toTopOf="@+id/cardLimpieza"
-            app:strokeColor="#2196F3"
-            app:strokeWidth="1dp">
+            app:layout_constraintEnd_toStartOf="@+id/cardSuministros"
+            app:layout_constraintTop_toBottomOf="@+id/tvTituloCapacidades"
+            app:layout_constraintWidth_percent="0.30">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="4dp">
+                android:gravity="center">
 
                 <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:contentDescription="Material Pesado"
-                    android:src="@android:drawable/ic_menu_edit" />
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_check_circle"
+                    app:tint="@color/white"
+                    android:background="@drawable/circular_bg"
+                    android:padding="6dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="Material"
-                    android:textSize="10sp" />
+                    android:layout_marginTop="4dp"
+                    android:text="Material Pesado"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardSuministros"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
             android:checkable="true"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
-            app:checkedIcon="@drawable/ic_check_circle"
-            app:checkedIconMargin="8dp"
-            app:checkedIconTint="#2196F3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="1dp"
+            app:cardBackgroundColor="@color/white"
+            app:strokeColor="@color/blue_primary"
+            app:cardElevation="2dp"
             app:layout_constraintStart_toEndOf="@+id/cardMaterialPesado"
-            app:layout_constraintTop_toTopOf="@+id/cardMaterialPesado"
-            app:strokeColor="#2196F3"
-            app:strokeWidth="1dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTituloCapacidades"
+            app:layout_constraintWidth_percent="0.30">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:orientation="vertical"
-                android:padding="4dp">
+                android:gravity="center">
 
                 <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:contentDescription="Suministros"
-                    android:src="@android:drawable/ic_menu_send" />
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_check_circle"
+                    app:tint="@color/white"
+                    android:background="@drawable/circular_bg"
+                    android:padding="6dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="4dp"
                     android:text="Suministros"
-                    android:textSize="10sp" />
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Segunda fila de tarjetas - Más pequeñas -->
+        <!-- Segunda fila de tarjetas (3 tarjetas) -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardSanidad"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
             android:checkable="true"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
-            app:checkedIcon="@drawable/ic_check_circle"
-            app:checkedIconMargin="8dp"
-            app:checkedIconTint="#2196F3"
-            app:layout_constraintEnd_toStartOf="@+id/cardHospedaje"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="1dp"
+            app:cardBackgroundColor="@color/white"
+            app:strokeColor="@color/blue_primary"
+            app:cardElevation="2dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/cardHospedaje"
             app:layout_constraintTop_toBottomOf="@+id/cardLimpieza"
-            app:strokeColor="#2196F3"
-            app:strokeWidth="1dp">
+            app:layout_constraintWidth_percent="0.30">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="4dp">
+                android:gravity="center">
 
                 <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:contentDescription="Sanidad"
-                    android:src="@android:drawable/ic_menu_help" />
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_check_circle"
+                    app:tint="@color/white"
+                    android:background="@drawable/circular_bg"
+                    android:padding="6dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="4dp"
                     android:text="Sanidad"
-                    android:textSize="10sp" />
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardHospedaje"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
             android:checkable="true"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
-            app:checkedIcon="@drawable/ic_check_circle"
-            app:checkedIconMargin="8dp"
-            app:checkedIconTint="#2196F3"
-            app:layout_constraintEnd_toStartOf="@+id/cardTransporte"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="1dp"
+            app:cardBackgroundColor="@color/white"
+            app:strokeColor="@color/blue_primary"
+            app:cardElevation="2dp"
             app:layout_constraintStart_toEndOf="@+id/cardSanidad"
+            app:layout_constraintEnd_toStartOf="@+id/cardTransporte"
             app:layout_constraintTop_toTopOf="@+id/cardSanidad"
-            app:strokeColor="#2196F3"
-            app:strokeWidth="1dp">
+            app:layout_constraintWidth_percent="0.30">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="4dp">
+                android:gravity="center">
 
                 <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:contentDescription="Hospedaje"
-                    android:src="@android:drawable/ic_menu_myplaces" />
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_check_circle"
+                    app:tint="@color/white"
+                    android:background="@drawable/circular_bg"
+                    android:padding="6dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="4dp"
                     android:text="Hospedaje"
-                    android:textSize="10sp" />
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardTransporte"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_height="100dp"
+            android:clickable="true"
             android:checkable="true"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
-            app:checkedIcon="@drawable/ic_check_circle"
-            app:checkedIconMargin="8dp"
-            app:checkedIconTint="#2196F3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="1dp"
+            app:cardBackgroundColor="@color/white"
+            app:strokeColor="@color/blue_primary"
+            app:cardElevation="2dp"
             app:layout_constraintStart_toEndOf="@+id/cardHospedaje"
-            app:layout_constraintTop_toTopOf="@+id/cardHospedaje"
-            app:strokeColor="#2196F3"
-            app:strokeWidth="1dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cardSanidad"
+            app:layout_constraintWidth_percent="0.30">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="4dp">
+                android:gravity="center">
 
                 <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:contentDescription="Transporte"
-                    android:src="@android:drawable/ic_menu_directions" />
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_check_circle"
+                    app:tint="@color/white"
+                    android:background="@drawable/circular_bg"
+                    android:padding="6dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="4dp"
                     android:text="Transporte"
-                    android:textSize="10sp" />
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Sección de disponibilidad -->
 
-        <!-- CalendarView en lugar de DatePicker -->
-
-        <!-- Sección de provincias -->
+        <!-- Título para selección de días -->
         <TextView
-            android:id="@+id/tvDisponibilidad"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvTituloDias"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:text="Indica tu disponibilidad:"
-            android:textColor="#1565C0"
-            android:textSize="18sp"
+            android:layout_marginTop="24dp"
+            android:text="Selecciona los días y turnos disponibles:"
+            android:textStyle="bold"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardSanidad" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardSanidad"/>
 
-
-        <!-- Añade este TextView después del calendario -->
-        <TextView
-            android:id="@+id/tvFechasSeleccionadas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="#1565C0"
-            android:text="Fechas seleccionadas: Ninguna"
-            app:layout_constraintTop_toBottomOf="@+id/tvDisponibilidad"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-
-        <TextView
-            android:id="@+id/tvProvincia"
-            android:layout_width="wrap_content"
+        <!-- TabLayout para selección de turno (Mañana/Tarde) -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Selecciona tu provincia:"
-            android:textColor="#1565C0"
-            android:textSize="18sp"
+            app:tabIndicatorColor="@color/blue_primary"
+            app:tabSelectedTextColor="@color/blue_primary"
+            app:tabTextColor="#757575"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvFechasSeleccionadas" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTituloDias">
 
-        <!-- Input de provincias con Material Design y dropdown hacia arriba -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilProvincias"
-            android:layout_width="match_parent"
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Turno Mañana" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Turno Tarde" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <!-- Container para los ChipGroups -->
+        <FrameLayout
+            android:id="@+id/turnosContainer"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="Provincia"
-            app:boxStrokeColor="#2196F3"
-            app:hintTextColor="#1565C0"
-            app:endIconTint="#2196F3"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvProvincia">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout">
 
-            <AutoCompleteTextView
-                android:id="@+id/actvProvincias"
+            <!-- ChipGroup para turno de mañana (visible inicialmente) -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupMorning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                android:dropDownAnchor="@id/tilProvincias"
-                android:dropDownHeight="180dp"
-                android:dropDownVerticalOffset="-180dp"
-                android:textColor="#1565C0" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:singleSelection="false"
+                app:chipSpacing="8dp"
+                android:padding="8dp">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipLunesMorning"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lunes"
+                    android:checkable="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipMartesMorning"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Martes"
+                    android:checkable="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipMiercolesMorning"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Miércoles"
+                    android:checkable="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipJuevesMorning"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jueves"
+                    android:checkable="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipViernesMorning"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Viernes"
+                    android:checkable="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSabadoMorning"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sábado"
+                    android:checkable="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDomingoMorning"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Domingo"
+                    android:checkable="true"/>
+            </com.google.android.material.chip.ChipGroup>
+
+            <!-- ChipGroup para turno de tarde (inicialmente invisible) -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupAfternoon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:singleSelection="false"
+                app:chipSpacing="8dp"
+                android:padding="8dp"
+                android:visibility="gone">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipLunesAfternoon"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lunes"
+                    android:checkable="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipMartesAfternoon"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Martes"
+                    android:checkable="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipMiercolesAfternoon"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Miércoles"
+                    android:checkable="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipJuevesAfternoon"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jueves"
+                    android:checkable="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipViernesAfternoon"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Viernes"
+                    android:checkable="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSabadoAfternoon"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sábado"
+                    android:checkable="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDomingoAfternoon"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Domingo"
+                    android:checkable="true"/>
+            </com.google.android.material.chip.ChipGroup>
+        </FrameLayout>
+
+        <!-- Resumen de días seleccionados -->
+        <TextView
+            android:id="@+id/tvResumenDias"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Días seleccionados: Ninguno"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/turnosContainer"/>
 
         <!-- Botón de registro -->
         <com.google.android.material.button.MaterialButton
@@ -341,18 +473,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="#2196F3"
+            android:layout_marginBottom="24dp"
+            android:text="Conyinuar Registro"
             android:padding="12dp"
-            android:text="Registrar como Voluntario"
-            android:textColor="@android:color/white"
             app:cornerRadius="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tilProvincias"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvResumenDias"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
