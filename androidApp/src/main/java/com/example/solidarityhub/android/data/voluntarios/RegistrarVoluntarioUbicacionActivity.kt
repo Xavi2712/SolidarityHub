@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,12 @@ import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import java.util.Locale
 import com.example.solidarityhub.android.R
+import com.example.solidarityhub.android.data.model.ConvertirVoluntarioRequest
+import com.example.solidarityhub.android.data.remote.RetrofitClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RegistrarVoluntarioUbicacionActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -222,30 +229,87 @@ class RegistrarVoluntarioUbicacionActivity : AppCompatActivity(), OnMapReadyCall
 
         // Registrar al voluntario en la base de datos
         registerVoluntarioInDatabase()
-
-        // Navegar al menú principal
-        val intent = Intent(this, Menu_activity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
-        finish()
     }
 
     private fun registerVoluntarioInDatabase() {
-        // Aquí iría el código para registrar al voluntario en la base de datos
-        // Usando los datos guardados en SessionManager
-
+        // Obtener los datos guardados en SessionManager
         val capacidades = sessionManager.getTempCapacidades() ?: ArrayList()
         val diasDisponibles = sessionManager.getTempDiasDisponibles() ?: ArrayList()
+        val dni = sessionManager.getDni()
 
+        if (dni.isNullOrEmpty()) {
+            Toast.makeText(this, "Error: DNI no encontrado", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (currentLatLng == null) {
+            Toast.makeText(this, "Error: Ubicación no seleccionada", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Mostrar progreso al usuario
+        binding.progressBar.visibility = View.VISIBLE
+        binding.btnConfirmLocation.isEnabled = false
+
+        // Crear objeto de solicitud
+        val voluntarioRequest = ConvertirVoluntarioRequest(
+            dias_disp = diasDisponibles,
+            capacidades = capacidades,
+            latitud = currentLatLng!!.latitude,
+            longitud = currentLatLng!!.longitude,
+            alcance = currentRadius
+        )
+
+        // Registrar la información en los logs
         Log.d(TAG, "Registrando voluntario con ubicación: $currentLatLng")
         Log.d(TAG, "Dirección: $currentAddress")
         Log.d(TAG, "Radio: $currentRadius")
         Log.d(TAG, "Capacidades: $capacidades")
         Log.d(TAG, "Días disponibles: $diasDisponibles")
+        Log.d(TAG, "DNI: $dni")
 
-        // Aquí harías la llamada a tu API o base de datos
-        // Por ahora solo mostramos un mensaje de éxito
-        Toast.makeText(this, "¡Registro de voluntario completado!", Toast.LENGTH_LONG).show()
+        // Realizar la llamada al API en un hilo secundario
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitClient.voluntarioApiService.convertirVoluntario(
+                    dni = dni,
+                    request = voluntarioRequest
+                )
+
+                withContext(Dispatchers.Main) {
+                    binding.progressBar.visibility = View.GONE
+                    binding.btnConfirmLocation.isEnabled = true
+
+                    if (response.isSuccessful) {
+                        // Limpiar datos temporales
+                        sessionManager.clearTempData()
+                        
+                        Toast.makeText(this@RegistrarVoluntarioUbicacionActivity, 
+                            "¡Registro de voluntario completado!", Toast.LENGTH_LONG).show()
+                        
+                        // Navegar al menú principal
+                        val intent = Intent(this@RegistrarVoluntarioUbicacionActivity, Menu_activity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        val errorMessage = "Error: ${response.code()} - ${response.message()}"
+                        Log.e(TAG, errorMessage)
+                        Toast.makeText(this@RegistrarVoluntarioUbicacionActivity, 
+                            "Error al registrar: ${response.message()}", Toast.LENGTH_LONG).show()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Error en la solicitud: ${e.message}", e)
+                
+                withContext(Dispatchers.Main) {
+                    binding.progressBar.visibility = View.GONE
+                    binding.btnConfirmLocation.isEnabled = true
+                    Toast.makeText(this@RegistrarVoluntarioUbicacionActivity, 
+                        "Error de conexión: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(
