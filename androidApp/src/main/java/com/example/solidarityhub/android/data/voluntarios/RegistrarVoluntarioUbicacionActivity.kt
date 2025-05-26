@@ -22,6 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import java.util.Locale
 import com.example.solidarityhub.android.R
 import com.example.solidarityhub.android.data.model.ConvertirVoluntarioRequest
@@ -30,6 +31,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.inputmethod.EditorInfo
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.AdapterView
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import java.io.IOException
 
 class RegistrarVoluntarioUbicacionActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -43,6 +53,11 @@ class RegistrarVoluntarioUbicacionActivity : AppCompatActivity(), OnMapReadyCall
     private var currentRadius: Int = 5000 // Radio predeterminado en metros
     private var mapCircle: CircleOptions? = null
 
+    // Autocompletar
+    private var autocompleteJob: Job? = null
+    private lateinit var adapter: ArrayAdapter<String>
+    private val geocoder: Geocoder by lazy { Geocoder(this, Locale("es", "ES")) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegistrarVoluntarioUbicacionBinding.inflate(layoutInflater)
@@ -50,6 +65,12 @@ class RegistrarVoluntarioUbicacionActivity : AppCompatActivity(), OnMapReadyCall
 
         // Inicializar SessionManager
         sessionManager = SessionManager(this)
+
+        // Crear adaptador para sugerencias
+        adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, ArrayList<String>())
+        val autoCompleteTextView = binding.searchAddress as AutoCompleteTextView
+        autoCompleteTextView.setAdapter(adapter)
+        autoCompleteTextView.threshold = 3
 
         // Inicializar el mapa
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -61,10 +82,8 @@ class RegistrarVoluntarioUbicacionActivity : AppCompatActivity(), OnMapReadyCall
         // Configurar el SeekBar para el radio
         setupRadiusSlider()
 
-        // Configurar botón de búsqueda
-        binding.btnSearch.setOnClickListener {
-            searchAddress()
-        }
+        // Configurar buscador con autocompletado
+        setupAutoCompleteSearch()
 
         // Configurar botón de confirmación
         binding.btnConfirmLocation.setOnClickListener {
@@ -77,19 +96,108 @@ class RegistrarVoluntarioUbicacionActivity : AppCompatActivity(), OnMapReadyCall
         }
     }
 
-    private fun setupRadiusSlider() {
-        // Establecer el valor inicial en el TextView
-        updateRadiusText(5000) // 5km por defecto
+    private fun setupAutoCompleteSearch() {
+        val autoCompleteTextView = binding.searchAddress as AutoCompleteTextView
 
-        // Configurar el SeekBar (que reemplazó al Slider)
+        // Manejo del cambio de texto para autocompletado
+        autoCompleteTextView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            val selectedAddress = adapter.getItem(position) ?: return@OnItemClickListener
+            searchLocation(selectedAddress)
+        }
+
+        // Detectar cambios de texto para buscar sugerencias
+        autoCompleteTextView.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (autoCompleteTextView.text.toString().isNotEmpty()) {
+                    searchLocation(autoCompleteTextView.text.toString())
+                }
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
+        // Implementar autocompletado al escribir
+        autoCompleteTextView.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val query = s.toString()
+                if (query.length >= 3) {
+                    autocompleteJob?.cancel()
+                    autocompleteJob = CoroutineScope(Dispatchers.Main).launch {
+                        delay(300)
+                        getAddressPredictions(query)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun getAddressPredictions(query: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val addresses = geocoder.getFromLocationName(query, 5) ?: emptyList()
+                val suggestions = addresses.map {
+                    it.getAddressLine(0) ?: ""
+                }.filter { it.isNotEmpty() }
+
+                withContext(Dispatchers.Main) {
+                    adapter.clear()
+                    adapter.addAll(suggestions)
+                    adapter.notifyDataSetChanged()
+
+                    if (suggestions.isNotEmpty()) {
+                        (binding.searchAddress as AutoCompleteTextView).showDropDown()
+                    }
+                }
+            } catch (e: IOException) {
+                Log.e(TAG, "Error obteniendo sugerencias: ${e.message}")
+            }
+        }
+    }
+
+    private fun searchLocation(address: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val addresses = geocoder.getFromLocationName(address, 1) ?: emptyList()
+                if (addresses.isNotEmpty()) {
+                    val location = addresses[0]
+                    val latLng = LatLng(location.latitude, location.longitude)
+
+                    withContext(Dispatchers.Main) {
+                        currentLatLng = latLng
+                        currentAddress = address
+                        updateMapLocation(latLng, address)
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@RegistrarVoluntarioUbicacionActivity, "Dirección no encontrada", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: IOException) {
+                withContext(Dispatchers.Main) {
+                    Log.e(TAG, "Error: ${e.message}")
+                    Toast.makeText(this@RegistrarVoluntarioUbicacionActivity, "Error al buscar dirección", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun updateMapLocation(latLng: LatLng, title: String) {
+        mMap.clear()
+        mMap.addMarker(MarkerOptions().position(latLng).title(title))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
+        drawRadiusCircle()
+    }
+
+    private fun setupRadiusSlider() {
+        updateRadiusText(5000)
+
         binding.sliderRadio.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                // Convertir el progreso (0-9) a radio en metros (1000-10000)
                 val radius = (progress + 1) * 1000
                 updateRadiusText(radius)
                 currentRadius = radius
-
-                // Actualizar círculo en el mapa si ya hay una ubicación seleccionada
                 if (currentLatLng != null) {
                     drawRadiusCircle()
                 }
@@ -107,46 +215,48 @@ class RegistrarVoluntarioUbicacionActivity : AppCompatActivity(), OnMapReadyCall
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Verificar permisos de ubicación
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            mMap.isMyLocationEnabled = true
+        // Configurar el mapa para permitir seleccionar ubicación al hacer clic
+        mMap.setOnMapClickListener { latLng ->
+            currentLatLng = latLng
 
-            // Obtener la ubicación actual
-            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                location?.let {
-                    currentLatLng = LatLng(it.latitude, it.longitude)
-                    getAddressFromLocation()
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng!!, 15f))
-                    drawRadiusCircle()
+            // Geocodificar en reversa para obtener la dirección
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1) ?: emptyList()
+
+                    withContext(Dispatchers.Main) {
+                        if (addresses.isNotEmpty()) {
+                            val address = addresses[0]
+                            val addressText = address.getAddressLine(0) ?: "${latLng.latitude}, ${latLng.longitude}"
+                            currentAddress = addressText
+
+                            updateMapLocation(latLng, addressText)
+                            binding.searchAddress.setText(addressText)
+                        } else {
+                            currentAddress = "${latLng.latitude}, ${latLng.longitude}"
+                            updateMapLocation(latLng, "Ubicación seleccionada")
+                            binding.searchAddress.setText("${latLng.latitude}, ${latLng.longitude}")
+                        }
+                    }
+                } catch (e: IOException) {
+                    withContext(Dispatchers.Main) {
+                        Log.e(TAG, "Error: ${e.message}")
+                        currentAddress = "${latLng.latitude}, ${latLng.longitude}"
+                        updateMapLocation(latLng, "Ubicación seleccionada")
+                        binding.searchAddress.setText("${latLng.latitude}, ${latLng.longitude}")
+                    }
                 }
             }
-        } else {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
-            )
         }
 
-        // Configurar listener para cuando se mueva la cámara del mapa
-        mMap.setOnCameraIdleListener {
-            // El pin siempre está en el centro, así que obtenemos las coordenadas del centro
-            currentLatLng = mMap.cameraPosition.target
-            getAddressFromLocation()
-            drawRadiusCircle()
-        }
+        // Iniciar con una ubicación por defecto (España)
+        val madrid = LatLng(40.4168, -3.7038)
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(madrid, 6f))
     }
 
     private fun drawRadiusCircle() {
         currentLatLng?.let { latLng ->
-            // Limpiar círculo anterior
             mMap.clear()
-
-            // Dibujar nuevo círculo
             val circleOptions = CircleOptions()
                 .center(latLng)
                 .radius(currentRadius.toDouble())
@@ -155,56 +265,7 @@ class RegistrarVoluntarioUbicacionActivity : AppCompatActivity(), OnMapReadyCall
                 .fillColor(0x30FF0000)
 
             mMap.addCircle(circleOptions)
-        }
-    }
-
-    private fun getAddressFromLocation() {
-        currentLatLng?.let { latLng ->
-            try {
-                val geocoder = Geocoder(this, Locale.getDefault())
-                val addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-
-                if (addresses != null && addresses.isNotEmpty()) {
-                    val address = addresses[0]
-                    val addressLine = address.getAddressLine(0) ?: ""
-
-                    currentAddress = addressLine
-                    binding.searchAddress.setText(addressLine)
-
-                    // No necesitas crear un nuevo LatLng ni mover la cámara aquí
-                    // Ya tenemos currentLatLng y el mapa se actualiza en otros lugares
-                } else {
-                    Toast.makeText(this, "No se encontró la dirección", Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "Error obteniendo dirección: ${e.message}")
-            }
-        }
-    }
-
-    private fun searchAddress() {
-        val searchQuery = binding.searchAddress.text.toString().trim()
-
-        if (searchQuery.isNotEmpty()) {
-            try {
-                val geocoder = Geocoder(this, Locale.getDefault())
-                val addressList = geocoder.getFromLocationName(searchQuery, 1)
-
-                if (!addressList.isNullOrEmpty()) {
-                    val address = addressList[0]
-                    val latLng = LatLng(address.latitude, address.longitude)
-
-                    currentLatLng = latLng
-                    currentAddress = searchQuery
-
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
-                } else {
-                    Toast.makeText(this, "No se encontró la dirección", Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: Exception) {
-                Toast.makeText(this, "Error al buscar dirección", Toast.LENGTH_SHORT).show()
-                Log.e(TAG, "Error al buscar dirección: ${e.message}")
-            }
+            mMap.addMarker(MarkerOptions().position(latLng).title(currentAddress))
         }
     }
 
@@ -312,25 +373,9 @@ class RegistrarVoluntarioUbicacionActivity : AppCompatActivity(), OnMapReadyCall
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permiso concedido, reiniciar actividad
-                recreate()
-            } else {
-                Toast.makeText(
-                    this,
-                    "Se requiere permiso de ubicación para usar esta función",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        autocompleteJob?.cancel()
     }
 
     companion object {

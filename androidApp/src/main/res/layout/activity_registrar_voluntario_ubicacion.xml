@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".ui.voluntarios.RegistrarVoluntarioUbicacionActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -15,83 +16,61 @@
         app:titleTextColor="@color/white"
         app:title="Seleccionar ubicación" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/search_card"
+    <!-- Buscador de direcciones con autocompletado -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilDireccion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="5dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="32dp"
+        app:boxStrokeColor="@color/blue_primary"
+        app:endIconMode="clear_text"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <LinearLayout
+        <AutoCompleteTextView
+            android:id="@+id/search_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:hint="Buscar dirección"
+            android:inputType="text"
+            android:imeOptions="actionSearch"
+            android:dropDownAnchor="@id/tilDireccion"
+            android:popupBackground="#FFFFFF"
+            android:completionThreshold="3" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/search_address"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="Buscar dirección"
-                android:padding="16dp"
-                android:singleLine="true" />
-
-            <ImageButton
-                android:id="@+id/btn_search"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/ic_menu_search" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <FrameLayout
-        android:id="@+id/map_container"
+    <!-- Mapa -->
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@id/slider_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_card">
+        app:layout_constraintTop_toBottomOf="@id/tilDireccion" />
 
-        <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="616dp" />
-
-        <ImageView
-            android:id="@+id/marker_pin"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_location_pin"
-            android:translationY="-24dp" />
-    </FrameLayout>
-
+    <!-- Contenedor del slider de radio -->
     <LinearLayout
         android:id="@+id/slider_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/btn_confirm_location"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="Radio de alcance (metros):"
             android:textStyle="bold" />
 
@@ -119,6 +98,18 @@
         </LinearLayout>
     </LinearLayout>
 
+    <!-- Botón de confirmación -->
+    <Button
+        android:id="@+id/btn_confirm_location"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Confirmar ubicación"
+        android:backgroundTint="@color/blue_primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -126,18 +117,6 @@
         android:layout_marginBottom="16dp"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/btn_confirm_location"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_confirm_location"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="Confirmar ubicación"
-        android:backgroundTint="@color/blue_primary"
-        app:cornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

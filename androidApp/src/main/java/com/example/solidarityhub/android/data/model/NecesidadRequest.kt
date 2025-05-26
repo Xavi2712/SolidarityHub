@@ -1,7 +1,10 @@
 package com.example.solidarityhub.android.data.model
 
 data class NecesidadRequest(
-    val tipo: String,
+    val afectado: String,
     val descripcion: String,
-    val dni:String
+    val nombre: String,
+    val zona: String,
+    val estado: String = "SIN COMENZAR",
+    val fecha_creacion: String
 )

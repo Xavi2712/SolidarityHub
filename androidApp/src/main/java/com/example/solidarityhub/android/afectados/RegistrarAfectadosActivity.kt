@@ -182,7 +182,7 @@ class RegistrarAfectadosActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun updateMapLocation(latLng: LatLng, title: String) {
         mMap.clear()
         mMap.addMarker(MarkerOptions().position(latLng).title(title))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
     }
 
     private fun registerAfectado() {
@@ -282,10 +282,8 @@ class RegistrarAfectadosActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Iniciar con una ubicación por defecto (España)
         val madrid = LatLng(40.4168, -3.7038)
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(madrid, 5f))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(madrid, 6f))
     }
-
-
 
     override fun onDestroy() {
         super.onDestroy()

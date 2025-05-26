@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.solidarityhub.android.databinding.ActivityLoginBinding
 import com.example.solidarityhub.android.data.remote.RetrofitClient
 import com.example.solidarityhub.android.util.SessionManager
+import com.example.solidarityhub.android.inicio.Menu_activity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -57,25 +58,45 @@ class LoginActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         val loginResponse = response.body()
+                        val usuario = loginResponse?.usuario
 
-                        // Guardar información de sesión
-                        sessionManager.saveDni(dni)
-                        loginResponse?.token?.let { sessionManager.saveAuthToken(it) }
-                        loginResponse?.userName?.let { sessionManager.saveUserName(it) }
+                        if (usuario != null) {
+                            // Guardar información de sesión
+                            sessionManager.saveDni(usuario.dni)
+                            sessionManager.saveUserName(usuario.nombre)
+                            sessionManager.saveUserEmail(usuario.correo)
 
-                        Toast.makeText(
-                            this@LoginActivity,
-                            "Inicio de sesión exitoso",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            Toast.makeText(
+                                this@LoginActivity,
+                                loginResponse.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
 
-                        // Navegar a la pantalla de selección de rol
-                        val intent = Intent(this@LoginActivity, SeleccionRolActivity::class.java)
-                        loginResponse?.userName?.let {
-                            intent.putExtra("nombreUsuario", it)
+                            // Verificar el rol del usuario
+                            when (usuario.rol?.lowercase()) {
+                                "voluntario", "afectado" -> {
+                                    // Si tiene rol de voluntario o afectado, ir al menú principal
+                                    sessionManager.saveUserRole(usuario.rol)
+                                    val intent = Intent(this@LoginActivity, Menu_activity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    startActivity(intent)
+                                    finish()
+                                }
+                                "usuario", null -> {
+                                    // Si es usuario o no tiene rol, ir a la pantalla de selección de rol
+                                    val intent = Intent(this@LoginActivity, SeleccionRolActivity::class.java)
+                                    intent.putExtra("nombreUsuario", usuario.nombre)
+                                    startActivity(intent)
+                                    finish()
+                                }
+                            }
+                        } else {
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Error: No se recibió información del usuario",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-                        startActivity(intent)
-                        finish()
                     } else {
                         val errorMsg = response.errorBody()?.string()
                         Log.e("LOGIN_ERROR", "${response.code()}-$errorMsg")
@@ -88,7 +109,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.e("LOGIN_EXCEPTION", e.localizedMessage ?: "Error desconocido", e)
+                    Log.e("LOGIN_ERROR", "Error de conexión: ${e.message}")
                     Toast.makeText(
                         this@LoginActivity,
                         "Error de conexión: ${e.message}",

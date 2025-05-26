@@ -2,6 +2,7 @@ package com.example.solidarityhub.android.inicio
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -40,6 +41,17 @@ class Menu_activity : AppCompatActivity(), OnMapReadyCallback {
         // Inicializar SessionManager
         sessionManager = SessionManager(this)
 
+        // Verificar si el usuario tiene un rol asignado
+        val userRole = sessionManager.getUserRole()
+        if (userRole.isNullOrEmpty()) {
+            // Si no tiene rol, redirigir al login
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+            return
+        }
+
         // Configurar el mapa
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -53,7 +65,21 @@ class Menu_activity : AppCompatActivity(), OnMapReadyCallback {
         // Configurar datos de usuario en el menú
         setupUserData()
 
+        // Configurar botones según el rol del usuario
+        setupRoleSpecificButtons(userRole)
+    }
 
+    private fun setupRoleSpecificButtons(userRole: String) {
+        // Ocultar o mostrar botones según el rol
+        when (userRole) {
+            "voluntario" -> {
+                binding.btnRegistrarNecesidad.visibility = View.GONE
+            }
+            "afectado" -> {
+                // Los afectados pueden registrar necesidades
+                binding.btnRegistrarNecesidad.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun setupDrawerLayout() {
@@ -85,16 +111,12 @@ class Menu_activity : AppCompatActivity(), OnMapReadyCallback {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
         }
 
-        // Configurar botón de registrar voluntario
+        // Configurar botón de registrar necesidad
         binding.btnRegistrarNecesidad.setOnClickListener {
-            // Corregido: usar RegistrarVoluntariosActivity en lugar de RegistrarVoluntarioActivity
             val intent = Intent(this, AñadirNecesidadActivity::class.java)
             startActivity(intent)
             binding.drawerLayout.closeDrawer(GravityCompat.START)
         }
-
-        // Configurar botón de registrar afectado
-
 
         // Configurar botón de ajustes
         binding.btnAjustes.setOnClickListener {
@@ -105,7 +127,7 @@ class Menu_activity : AppCompatActivity(), OnMapReadyCallback {
         // Configurar botón de cerrar sesión
         binding.btnCerrarSesion.setOnClickListener {
             // Limpiar datos de sesión
-            sessionManager.logout() // Cambiado clearUserData() por logout()
+            sessionManager.logout()
 
             // Redirigir al login
             val intent = Intent(this, LoginActivity::class.java)
@@ -117,35 +139,34 @@ class Menu_activity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setupUserData() {
         // Mostrar nombre de usuario y email desde SessionManager
-        binding.txtUserName.text = sessionManager.getUserName() ?: "Usuario" // Cambiado getNombre por getUserName
-        binding.txtUserEmail.text = sessionManager.getUserEmail() ?: "usuario@email.com" // Cambiado getEmail por getUserEmail
+        binding.txtUserName.text = sessionManager.getUserName() ?: "Usuario"
+        binding.txtUserEmail.text = sessionManager.getUserEmail() ?: "usuario@email.com"
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Cargar y centrar en la ubicación del afectado (si existe)
+        // Cargar y centrar en la ubicación del usuario
         centerMapOnUserLocation()
     }
 
     private fun centerMapOnUserLocation() {
-
-        val latitud = sessionManager.getUserLatitud() // Cambiado getLatitud por getUserLatitud
-        val longitud = sessionManager.getUserLongitud() // Cambiado getLongitud por getUserLongitud
-        val direccion = sessionManager.getUserDireccion() // Cambiado getDireccion por getUserDireccion
+        val latitud = sessionManager.getUserLatitud()
+        val longitud = sessionManager.getUserLongitud()
+        val direccion = sessionManager.getUserDireccion()
 
         if (latitud != 0.0 && longitud != 0.0) {
-            // Si hay ubicación guardada, centrar mapa en ella
             val ubicacion = LatLng(latitud, longitud)
-            mMap.clear()
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacion, 12f))
+            
+            // Añadir marcador en la ubicación
             mMap.addMarker(MarkerOptions()
                 .position(ubicacion)
                 .title(direccion ?: "Mi ubicación"))
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacion, 15f))
         } else {
             // Si no hay ubicación guardada, centrar en España
             val espana = LatLng(40.4168, -3.7038)
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(espana, 5f))
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(espana, 6f))
         }
     }
 }

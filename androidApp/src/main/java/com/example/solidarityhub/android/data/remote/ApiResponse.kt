@@ -1,10 +1,14 @@
 package com.example.solidarityhub.android.data.remote
 
+data class UsuarioResponse(
+    val dni: String,
+    val nombre: String,
+    val correo: String,
+    val telefono: String,
+    val rol: String?
+)
+
 data class ApiResponse(
-    val success: Boolean,
     val message: String,
-    val data: Any? = null,
-    val token: String? = null,
-    val userName: String? = null,
-    val role: String? = null
+    val usuario: UsuarioResponse? = null
 )

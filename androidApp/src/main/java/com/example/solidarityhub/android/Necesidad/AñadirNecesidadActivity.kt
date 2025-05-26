@@ -7,11 +7,13 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.solidarityhub.android.R
-import com.example.solidarityhub.android.data.model.AsignarNecesidadRequest
+import com.example.solidarityhub.android.data.model.NecesidadRequest
 import com.example.solidarityhub.android.data.remote.RetrofitClient
 import com.example.solidarityhub.android.util.SessionManager
 import kotlinx.coroutines.launch
 import com.google.gson.Gson
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 
 class AñadirNecesidadActivity : AppCompatActivity() {
     private lateinit var spinner: Spinner
@@ -43,20 +45,34 @@ class AñadirNecesidadActivity : AppCompatActivity() {
 
         // Al pulsar Guardar
         botonGuardar.setOnClickListener {
-            registrarNecesidad()
+            if (validarCampos()) {
+                registrarNecesidad()
+            }
         }
+    }
+
+    private fun validarCampos(): Boolean {
+        val descripcion = descripcionInput.text.toString().trim()
+        
+        if (descripcion.isEmpty()) {
+            descripcionInput.error = "Por favor añade una descripción"
+            Toast.makeText(this, "Por favor añade una descripción.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (descripcion.length < 10) {
+            descripcionInput.error = "La descripción debe tener al menos 10 caracteres"
+            Toast.makeText(this, "La descripción debe tener al menos 10 caracteres.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        return true
     }
 
     private fun registrarNecesidad() {
         val nombre = spinner.selectedItem.toString()
         val descripcion = descripcionInput.text.toString().trim()
         
-        // Validar entrada
-        if (descripcion.isEmpty()) {
-            Toast.makeText(this, "Por favor añade una descripción.", Toast.LENGTH_SHORT).show()
-            return
-        }
-
         // Obtener DNI desde SessionManager
         val dni = sessionManager.getDni()
         if (dni.isNullOrEmpty()) {
@@ -64,40 +80,69 @@ class AñadirNecesidadActivity : AppCompatActivity() {
             return
         }
 
+        // Obtener zona desde SessionManager
+        val zona = sessionManager.getUserAddress() ?: "Valencia"
+
+        // Obtener fecha actual en formato ISO 8601
+        val fechaCreacion = Instant.now().toString()
+
         // Mostrar progreso
         progressBar.visibility = View.VISIBLE
         botonGuardar.isEnabled = false
 
         // Crear solicitud
-        val necesidadRequest = AsignarNecesidadRequest(
+        val necesidadRequest = NecesidadRequest(
             afectado = dni,
+            descripcion = descripcion,
             nombre = nombre,
-            descripcion = descripcion
-            // Usa el valor por defecto para zona
+            zona = zona,
+            estado = "SIN COMENZAR",
+            fecha_creacion = fechaCreacion
         )
 
         // Log de datos que se envían
         val jsonRequest = Gson().toJson(necesidadRequest)
         Log.d(TAG, "Enviando necesidad: $jsonRequest")
-        Log.d(TAG, "URL: ${RetrofitClient.BASE_URL}api/Necesidad/asignarA")
+        Log.d(TAG, "URL: ${RetrofitClient.BASE_URL}api/Necesidad/registrar")
 
         // Realizar llamada al API
         lifecycleScope.launch {
             try {
                 // Intentar hacer la llamada a la API
-                RetrofitClient.necesidadApiService.asignarNecesidad(necesidadRequest)
+                val response = RetrofitClient.necesidadApiService.registrarNecesidad(necesidadRequest)
                 
-                // Log de éxito aunque la API pueda haber fallado
-                Log.d(TAG, "Intento de registro de necesidad completado")
+                if (response.isSuccessful) {
+                    Toast.makeText(this@AñadirNecesidadActivity, 
+                        "¡Necesidad registrada con éxito!", Toast.LENGTH_LONG).show()
+                    finish()
+                } else {
+                    val errorMsg = response.errorBody()?.string() ?: "Error desconocido"
+                    val mensajeError = when (response.code()) {
+                        400 -> "Datos inválidos. Por favor, verifica la información."
+                        401 -> "Sesión expirada. Por favor, vuelve a iniciar sesión."
+                        403 -> "No tienes permiso para registrar necesidades."
+                        404 -> "Servicio no encontrado."
+                        500 -> "Error del servidor. Por favor, intenta más tarde."
+                        else -> "Error: $errorMsg"
+                    }
+                    Toast.makeText(this@AñadirNecesidadActivity, 
+                        mensajeError, Toast.LENGTH_LONG).show()
+                    Log.e(TAG, "Error: ${response.code()} - $errorMsg")
+                }
             } catch (e: Exception) {
-                // Solo registrar el error en el log, pero no mostrar mensaje de error al usuario
                 Log.e(TAG, "Excepción al registrar necesidad", e)
-            } finally {
-                // Siempre mostrar mensaje de éxito y cerrar la actividad
-                progressBar.visibility = View.GONE
+                val mensajeError = when {
+                    e.message?.contains("Unable to resolve host") == true -> 
+                        "Error de conexión. Verifica tu conexión a internet."
+                    e.message?.contains("timeout") == true -> 
+                        "Tiempo de espera agotado. Por favor, intenta de nuevo."
+                    else -> "Error de conexión: ${e.message}"
+                }
                 Toast.makeText(this@AñadirNecesidadActivity, 
-                    "¡Necesidad registrada con éxito!", Toast.LENGTH_LONG).show()
-                finish()
+                    mensajeError, Toast.LENGTH_LONG).show()
+            } finally {
+                progressBar.visibility = View.GONE
+                botonGuardar.isEnabled = true
             }
         }
     }
