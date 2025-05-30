@@ -83,52 +83,40 @@ class RegistrarVoluntariosActivity : AppCompatActivity() {
     }
 
     private fun setupDayChips() {
-        // Configurar chips del turno mañana
-        binding.chipLunesMorning.setOnCheckedChangeListener { _, isChecked ->
-            updateDaySelection(isChecked, "LM", selectedMorningDays)
-        }
-        binding.chipMartesMorning.setOnCheckedChangeListener { _, isChecked ->
-            updateDaySelection(isChecked, "MM", selectedMorningDays)
-        }
-        binding.chipMiercolesMorning.setOnCheckedChangeListener { _, isChecked ->
-            updateDaySelection(isChecked, "XM", selectedMorningDays)
-        }
-        binding.chipJuevesMorning.setOnCheckedChangeListener { _, isChecked ->
-            updateDaySelection(isChecked, "JM", selectedMorningDays)
-        }
-        binding.chipViernesMorning.setOnCheckedChangeListener { _, isChecked ->
-            updateDaySelection(isChecked, "VM", selectedMorningDays)
-        }
-        binding.chipSabadoMorning.setOnCheckedChangeListener { _, isChecked ->
-            updateDaySelection(isChecked, "SM", selectedMorningDays)
-        }
-        binding.chipDomingoMorning.setOnCheckedChangeListener { _, isChecked ->
-            updateDaySelection(isChecked, "DM", selectedMorningDays)
+        val morningChips = mapOf(
+            binding.chipLunesMorning to "LM",
+            binding.chipMartesMorning to "MM",
+            binding.chipMiercolesMorning to "XM",
+            binding.chipJuevesMorning to "JM",
+            binding.chipViernesMorning to "VM",
+            binding.chipSabadoMorning to "SM",
+            binding.chipDomingoMorning to "DM"
+        )
+
+        val afternoonChips = mapOf(
+            binding.chipLunesAfternoon to "LT",
+            binding.chipMartesAfternoon to "MT",
+            binding.chipMiercolesAfternoon to "XT",
+            binding.chipJuevesAfternoon to "JT",
+            binding.chipViernesAfternoon to "VT",
+            binding.chipSabadoAfternoon to "ST",
+            binding.chipDomingoAfternoon to "DT"
+        )
+
+        morningChips.forEach { (chip, code) ->
+            chip.setOnCheckedChangeListener { _, isChecked ->
+                updateDaySelection(isChecked, code, selectedMorningDays)
+            }
         }
 
-        // Configurar chips del turno tarde
-        binding.chipLunesAfternoon.setOnCheckedChangeListener { _, isChecked ->
-            updateDaySelection(isChecked, "LT", selectedAfternoonDays)
-        }
-        binding.chipMartesAfternoon.setOnCheckedChangeListener { _, isChecked ->
-            updateDaySelection(isChecked, "MT", selectedAfternoonDays)
-        }
-        binding.chipMiercolesAfternoon.setOnCheckedChangeListener { _, isChecked ->
-            updateDaySelection(isChecked, "XT", selectedAfternoonDays)
-        }
-        binding.chipJuevesAfternoon.setOnCheckedChangeListener { _, isChecked ->
-            updateDaySelection(isChecked, "JT", selectedAfternoonDays)
-        }
-        binding.chipViernesAfternoon.setOnCheckedChangeListener { _, isChecked ->
-            updateDaySelection(isChecked, "VT", selectedAfternoonDays)
-        }
-        binding.chipSabadoAfternoon.setOnCheckedChangeListener { _, isChecked ->
-            updateDaySelection(isChecked, "ST", selectedAfternoonDays)
-        }
-        binding.chipDomingoAfternoon.setOnCheckedChangeListener { _, isChecked ->
-            updateDaySelection(isChecked, "DT", selectedAfternoonDays)
+        afternoonChips.forEach { (chip, code) ->
+            chip.setOnCheckedChangeListener { _, isChecked ->
+                updateDaySelection(isChecked, code, selectedAfternoonDays)
+            }
         }
     }
+
+
 
     private fun updateDaySelection(isSelected: Boolean, day: String, dayList: MutableSet<String>) {
         if (isSelected) {

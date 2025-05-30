@@ -13,6 +13,7 @@ import com.example.solidarityhub.android.afectados.RegistrarAfectadosActivity
 import com.example.solidarityhub.android.databinding.ActivitySeleccionRolBinding
 import com.example.solidarityhub.android.data.voluntarios.RegistrarVoluntariosActivity
 import kotlin.math.hypot
+import kotlin.math.max
 
 class SeleccionRolActivity : AppCompatActivity() {
 
@@ -66,45 +67,54 @@ class SeleccionRolActivity : AppCompatActivity() {
     }
 
     private fun animateAndProceed(view: View, colorCode: String, action: () -> Unit) {
-        // Obtener el color de la sección pulsada
-        val color = Color.parseColor(colorCode)
-        expandableBackgroundView?.setBackgroundColor(color)
-        expandableBackgroundView?.visibility = View.VISIBLE
+        val backgroundView = expandableBackgroundView ?: return
 
-        // Obtener las coordenadas del centro de la vista pulsada
+        prepareBackground(backgroundView, colorCode)
+        val (centerX, centerY) = view.centerOnScreen()
+        val endRadius = calculateMaxRadius(centerX, centerY)
+
+        createCircularRevealAnimation(backgroundView, centerX, centerY, endRadius) {
+            action()
+        }.start()
+    }
+
+    private fun prepareBackground(view: View, colorCode: String) {
+        view.setBackgroundColor(Color.parseColor(colorCode))
+        view.visibility = View.VISIBLE
+    }
+
+    private fun View.centerOnScreen(): Pair<Int, Int> {
         val location = IntArray(2)
-        view.getLocationInWindow(location)
+        getLocationInWindow(location)
+        val centerX = location[0] + width / 2
+        val centerY = location[1] + height / 2
+        return Pair(centerX, centerY)
+    }
 
-        val centerX = location[0] + view.width / 2
-        val centerY = location[1] + view.height / 2
-
-        // Calcular el radio máximo para cubrir toda la pantalla
-        val startRadius = 0f
-        val endRadius = hypot(
-            Math.max(centerX, binding.root.width - centerX).toDouble(),
-            Math.max(centerY, binding.root.height - centerY).toDouble()
+    private fun calculateMaxRadius(centerX: Int, centerY: Int): Float {
+        val width = binding.root.width
+        val height = binding.root.height
+        return hypot(
+            max(centerX, width - centerX).toDouble(),
+            max(centerY, height - centerY).toDouble()
         ).toFloat()
+    }
 
-        // Crear la animación de expansión circular
-        val anim = ViewAnimationUtils.createCircularReveal(
-            expandableBackgroundView,
-            centerX,
-            centerY,
-            startRadius,
-            endRadius
-        )
-
-        // Configurar la duración y el listener para la animación
-        anim.duration = 500
-        anim.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                // Ejecutar acción después de la animación
-                action.invoke()
-            }
-        })
-
-        // Iniciar la animación
-        anim.start()
+    private fun createCircularRevealAnimation(
+        view: View,
+        centerX: Int,
+        centerY: Int,
+        endRadius: Float,
+        onEnd: () -> Unit
+    ): Animator {
+        return ViewAnimationUtils.createCircularReveal(view, centerX, centerY, 0f, endRadius).apply {
+            duration = 500
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    onEnd()
+                }
+            })
+        }
     }
 
     private fun navigateToRegistrarVoluntarios() {

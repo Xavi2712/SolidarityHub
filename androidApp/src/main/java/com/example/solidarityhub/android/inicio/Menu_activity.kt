@@ -99,43 +99,36 @@ class Menu_activity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setupMenuButtons() {
-        // Configurar botón de perfil
-        binding.btnPerfil.setOnClickListener {
-            Toast.makeText(this, "Perfil seleccionado", Toast.LENGTH_SHORT).show()
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
-        }
+        setupSimpleToastButton(binding.btnPerfil, "Perfil seleccionado")
+        setupSimpleToastButton(binding.btnMensajes, "Mensajes seleccionados")
+        setupSimpleToastButton(binding.btnAjustes, "Ajustes seleccionados")
 
-        // Configurar botón de mensajes
-        binding.btnMensajes.setOnClickListener {
-            Toast.makeText(this, "Mensajes seleccionados", Toast.LENGTH_SHORT).show()
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
-        }
-
-        // Configurar botón de registrar necesidad
         binding.btnRegistrarNecesidad.setOnClickListener {
-            val intent = Intent(this, AñadirNecesidadActivity::class.java)
-            startActivity(intent)
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
+            startActivity(Intent(this, AñadirNecesidadActivity::class.java))
+            closeDrawer()
         }
 
-        // Configurar botón de ajustes
-        binding.btnAjustes.setOnClickListener {
-            Toast.makeText(this, "Ajustes seleccionados", Toast.LENGTH_SHORT).show()
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
-        }
-
-        // Configurar botón de cerrar sesión
         binding.btnCerrarSesion.setOnClickListener {
-            // Limpiar datos de sesión
             sessionManager.logout()
-
-            // Redirigir al login
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            val intent = Intent(this, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
             startActivity(intent)
             finish()
         }
     }
+
+    private fun setupSimpleToastButton(button: View, message: String) {
+        button.setOnClickListener {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            closeDrawer()
+        }
+    }
+
+    private fun closeDrawer() {
+        binding.drawerLayout.closeDrawer(GravityCompat.START)
+    }
+
 
     private fun setupUserData() {
         // Mostrar nombre de usuario y email desde SessionManager
