@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/info_window_background"
+    android:padding="12dp"
+    android:minWidth="200dp">
+
+    <!-- Header con emoji -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🆘"
+            android:textSize="20sp"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Persona Afectada"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#D32F2F" />
+
+    </LinearLayout>
+
+    <!-- Datos del afectado -->
+    <TextView
+        android:id="@+id/tvNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="👤 Nombre: Juan Pérez"
+        android:textSize="14sp"
+        android:textColor="#B71C1C"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/tvTelefono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="📱 Teléfono: 600123456"
+        android:textSize="14sp"
+        android:textColor="#B71C1C"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/tvDireccion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="📍 Dirección: Calle Principal 123"
+        android:textSize="12sp"
+        android:textColor="#D32F2F"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
+    <!-- Indicador de estado -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🚨 Necesita Ayuda"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="#FF5252"
+        android:layout_marginTop="6dp"
+        android:background="#FFEBEE"
+        android:padding="4dp"
+        android:drawablePadding="4dp" />
+
+</LinearLayout> 

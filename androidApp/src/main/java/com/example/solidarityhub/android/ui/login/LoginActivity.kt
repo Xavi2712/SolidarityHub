@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.solidarityhub.android.databinding.ActivityLoginBinding
 import com.example.solidarityhub.android.data.remote.RetrofitClient
+import com.example.solidarityhub.android.data.remote.ApiResponse
+import com.example.solidarityhub.android.data.remote.UsuarioResponse
 import com.example.solidarityhub.android.util.SessionManager
 import com.example.solidarityhub.android.inicio.Menu_activity
 import kotlinx.coroutines.CoroutineScope
@@ -54,21 +56,38 @@ class LoginActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
+                Log.d("LOGIN_REQUEST", "Enviando datos: $loginData")
                 val response = RetrofitClient.usuarioApiService.loginUsuario(loginData)
+                
                 withContext(Dispatchers.Main) {
+                    Log.d("LOGIN_RESPONSE", "Código de respuesta: ${response.code()}")
+                    
                     if (response.isSuccessful) {
-                        val loginResponse = response.body()
-                        val usuario = loginResponse?.usuario
+                        val apiResponse = response.body()
+                        Log.d("LOGIN_RESPONSE", "Respuesta completa: $apiResponse")
+                        
+                        val usuario = apiResponse?.usuario
+                        Log.d("LOGIN_RESPONSE", "Usuario recibido: $usuario")
 
                         if (usuario != null) {
                             // Guardar información de sesión
                             sessionManager.saveDni(usuario.dni)
                             sessionManager.saveUserName(usuario.nombre)
                             sessionManager.saveUserEmail(usuario.correo)
+                            sessionManager.saveUserTelefono(usuario.telefono)
+                            
+                            // Guardar ubicación del usuario si está disponible
+                            if (usuario.latitud != null && usuario.longitud != null) {
+                                val direccion = usuario.direccion ?: "Ubicación del usuario"
+                                sessionManager.saveUserLocation(usuario.latitud, usuario.longitud, direccion)
+                                Log.d("LOGIN_LOCATION", "Ubicación guardada: Lat=${usuario.latitud}, Lng=${usuario.longitud}, Dir=$direccion")
+                            } else {
+                                Log.d("LOGIN_LOCATION", "No se recibieron datos de ubicación")
+                            }
 
                             Toast.makeText(
                                 this@LoginActivity,
-                                loginResponse.message,
+                                apiResponse.message,
                                 Toast.LENGTH_SHORT
                             ).show()
 
@@ -77,6 +96,7 @@ class LoginActivity : AppCompatActivity() {
                                 "voluntario", "afectado" -> {
                                     // Si tiene rol de voluntario o afectado, ir al menú principal
                                     sessionManager.saveUserRole(usuario.rol)
+                                    Log.d("LOGIN_SUCCESS", "Redirigiendo al menú principal con rol: ${usuario.rol}")
                                     val intent = Intent(this@LoginActivity, Menu_activity::class.java)
                                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     startActivity(intent)
@@ -84,6 +104,7 @@ class LoginActivity : AppCompatActivity() {
                                 }
                                 "usuario", null -> {
                                     // Si es usuario o no tiene rol, ir a la pantalla de selección de rol
+                                    Log.d("LOGIN_SUCCESS", "Usuario sin rol específico, redirigiendo a selección de rol")
                                     val intent = Intent(this@LoginActivity, SeleccionRolActivity::class.java)
                                     intent.putExtra("nombreUsuario", usuario.nombre)
                                     startActivity(intent)
@@ -91,6 +112,7 @@ class LoginActivity : AppCompatActivity() {
                                 }
                             }
                         } else {
+                            Log.e("LOGIN_ERROR", "Usuario es null en la respuesta")
                             Toast.makeText(
                                 this@LoginActivity,
                                 "Error: No se recibió información del usuario",
@@ -99,7 +121,7 @@ class LoginActivity : AppCompatActivity() {
                         }
                     } else {
                         val errorMsg = response.errorBody()?.string()
-                        Log.e("LOGIN_ERROR", "${response.code()}-$errorMsg")
+                        Log.e("LOGIN_ERROR", "Error ${response.code()}: $errorMsg")
                         Toast.makeText(
                             this@LoginActivity,
                             "Error: Credenciales incorrectas",
@@ -109,7 +131,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.e("LOGIN_ERROR", "Error de conexión: ${e.message}")
+                    Log.e("LOGIN_ERROR", "Error de conexión: ${e.message}", e)
                     Toast.makeText(
                         this@LoginActivity,
                         "Error de conexión: ${e.message}",

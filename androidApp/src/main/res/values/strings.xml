@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Capacidades">Capacidades</string>
     <string name="Registrar">Registrar Voluntario</string>
@@ -29,5 +30,10 @@
         <item>Otra persona</item>
     </string-array>
 
+    <!-- Google Maps API Key - REEMPLAZA CON TU CLAVE REAL DE GOOGLE CLOUD CONSOLE -->
+    <!-- Ve a: https://console.cloud.google.com/ → APIs & Services → Credentials -->
+    <!-- Habilita: Directions API y Maps JavaScript API -->
+    <!-- IMPORTANTE: Configura facturación para que funcionen las rutas -->
+    <string name="google_maps_api_key">AQUI_PEGA_TU_API_KEY_REAL</string>
 
 </resources>

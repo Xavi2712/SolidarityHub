@@ -137,6 +137,17 @@ class SessionManager(context: Context) {
         return prefs.getString("user_name", null)
     }
 
+    // Guardar y obtener teléfono del usuario
+    fun saveUserTelefono(telefono: String) {
+        val editor = prefs.edit()
+        editor.putString("user_telefono", telefono)
+        editor.apply()
+    }
+
+    fun getUserTelefono(): String? {
+        return prefs.getString("user_telefono", null)
+    }
+
     // Obtener latitud del usuario (renombrado desde getUserLatitude)
     fun getUserLatitud(): Double {
         val latStr = prefs.getString("user_latitude", "0.0")

@@ -47,7 +47,25 @@
         <activity
             android:name=".afectados.RegistrarAfectadosActivity"
             android:exported="true"
-            android:label="@string/registro_afectados" /> <!-- Mantén cualquier otra actividad o metadatos que ya existan -->
+            android:label="@string/registro_afectados" />
+        <activity
+            android:name=".voluntarios.TareasAsignadasActivity"
+            android:exported="false"
+            android:label="Tareas Asignadas"
+            android:parentActivityName=".inicio.Menu_activity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".inicio.Menu_activity" />
+        </activity>
+        <activity
+            android:name=".perfil.PerfilActivity"
+            android:exported="false"
+            android:label="Mi Perfil"
+            android:parentActivityName=".inicio.Menu_activity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".inicio.Menu_activity" />
+        </activity>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD5aaBvxYkF_-T0SdvJCK3FDwuzvIeBVC0" />

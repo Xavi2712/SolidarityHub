@@ -22,13 +22,11 @@ interface AfectadoApiService {
         @Body ubicacionData: UbicacionRequest
     ): Response<ApiResponse>
 
+    @GET("api/AfectadoA/obtener/todos")
+    suspend fun getAllAfectados(): Response<List<AfectadoADTO>>
 
-        @GET("api/AfectadoA/obtener/todos") // Ajusta el endpoint según tu API
-        suspend fun getAllAfectados(): List<AfectadoADTO>
-
-
-        @POST("api/Necesidad")
-        suspend fun crearNecesidad(@Body req: NecesidadRequest)
-    }
+    @POST("api/Necesidad")
+    suspend fun crearNecesidad(@Body req: NecesidadRequest)
+}
 
 

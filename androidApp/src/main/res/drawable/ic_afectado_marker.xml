@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="42dp"
+    android:viewportWidth="32"
+    android:viewportHeight="42">
+    
+    <!-- Sombra del marcador -->
+    <path
+        android:fillColor="#33000000"
+        android:pathData="M16,40 C16,40 30,26 30,16 C30,8.268 23.732,2 16,2 S2,8.268 2,16 C2,26 16,40 16,40 Z" />
+    
+    <!-- Marcador principal -->
+    <path
+        android:fillColor="#F44336"
+        android:pathData="M16,38 C16,38 28,24 28,16 C28,9.373 22.627,4 16,4 S4,9.373 4,16 C4,24 16,38 16,38 Z" />
+    
+    <!-- Círculo interior blanco -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M16,8 C20.418,8 24,11.582 24,16 C24,20.418 20.418,24 16,24 C11.582,24 8,20.418 8,16 C8,11.582 11.582,8 16,8 Z" />
+    
+    <!-- Símbolo de exclamación (!) para representar ayuda -->
+    <path
+        android:fillColor="#F44336"
+        android:pathData="M15,11 L17,11 L17,18 L15,18 Z" />
+    
+    <!-- Punto del símbolo de exclamación -->
+    <path
+        android:fillColor="#F44336"
+        android:pathData="M15,20 L17,20 L17,22 L15,22 Z" />
+    
+</vector> 

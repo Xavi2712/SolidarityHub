@@ -5,7 +5,10 @@ data class UsuarioResponse(
     val nombre: String,
     val correo: String,
     val telefono: String,
-    val rol: String?
+    val rol: String? = null,
+    val direccion: String? = null,
+    val latitud: Double? = null,
+    val longitud: Double? = null
 )
 
 data class ApiResponse(
